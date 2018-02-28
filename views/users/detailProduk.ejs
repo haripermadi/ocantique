@@ -15,9 +15,9 @@
                 <td><%=product.stock%></td>
                 <td><%=product.description%></td>
                 <td>
-                    <form action="/users/buyProduct/:id" method="POST">
-                        <input type="number" placeholder="quantity" name="">
-                        <button>buy</button>
+                    <form action="/users/buyProduct/<%=product.id%>" method="POST">
+                        <input type="number" placeholder="quantity" name="quantity">
+                        <button>Add to Chart</button>
                     </form>
                 </td>
             </tr>

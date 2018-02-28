@@ -4,11 +4,8 @@ const Model = require('../models')
 const op = require('sequelize').Op
 
 router.get('/',(req, res)=> {
-    Model.Order_Product.findAll({
-        include : [Model.Product]
-    }).then(data=>{
-        res.send(data)
-        //res.render('index',{product:data})
+    Model.Product.findAll().then(data=>{
+        res.render('index',{product:data})
     }).catch(err=>{
         res.send(err)
     })
@@ -101,7 +98,7 @@ router.post('/checkout',(req, res)=> {
             res.render('users/invoice',{product:data})            
         }).catch(err=>{
             res.send(err)
-        })
+        })w
     }).catch(err=>{
         res.send(err)
     })

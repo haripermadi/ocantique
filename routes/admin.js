@@ -2,63 +2,66 @@ const express = require('express');
 const app = express();
 const router = express.Router()
 const models = require('../models')
-const product = models.Product
-const category = models.Category
-
+const bcrypt = require('bcrypt')
+const user = models.User
 
 router.get('/',function(req,res){
-  res.render('admin/index')
+  res.render('admin/admin_login',{err:null})
 })
 
-router.get('/products',function(req,res){
-  product.findAll({
-    include:[category]
-  }).then(detail=>{
-    // res.send(detail)
-    res.render('admin/product',{data:detail})
+router.post('/',(req, res)=> {
+  // console.log("======",req.body)
+  let obj = {
+    email:req.body.email,
+    password: req.body.password
+  }
+  user.findOne({
+    where:{email:obj.email}
+  }).then(data=>{
+    bcrypt.compare(obj.password, data.password).then(function(result) {
+      // res == true
+      if(obj.email === data.email && data.role === 2 && result){
+        req.session.isLogin = true
+        req.session.type = data.role
+        res.redirect('/admin/home')
+      }else{
+        res.redirect('/admin')
+      }
+    })  
   }).catch(err=>{
     res.send(err)
   })
 })
 
-router.get('/products/add',function(req,res){
-  res.render('admin/add_product')
+router.get('/register',(req, res)=> {
+  res.render('admin/admin_register')
 })
 
-router.post('/products/add',function(req,res){
-  product.create(req.body).then(data=>{
-    res.redirect('/admin/products')
+router.post('/register',(req, res)=> {
+  user.create({
+      first_name :req.body.first_name,
+      last_name :req.body.last_name,
+      email:req.body.email,
+      password:req.body.password,
+      phone:req.body.phone,
+      address:req.body.address,
+      role:2
+  }).then(()=>{
+      res.redirect('/admin')
   }).catch(err=>{
-    res.send(err)
+      res.send(err)
   })
 })
 
-router.get('/products/edit/:id',function(req,res){
-  let id = req.params.id
-  product.findOne({where:{id:id}}).then(data=>{
-    // console.log(JSON.parse(JSON.stringify(data)))
-    res.render('admin/edit_product',{dataProduct:data})
-  }).catch(err=>{
-    res.send(err)
-  })
-})
-router.post('/products/edit/:id',function(req,res){
-  let id = req.params.id
-  product.update(req.body,{
-    where:{id:id}})
-    .then(data=>{
-    res.redirect('/admin/products')
-  }).catch(err=>{
-    res.send(err)
-  })
-})
-
-router.get('/products/delete/:id',function(req,res){
-  let id = req.params.id
-  product.destroy({
-    where:{id:id}})
-    .then(()=>{
-    res.redirect('/admin/products')
+router.get('/logout',function(req,res){
+  req.session.destroy(err=>{
+    if(!err){
+      let out = 'You have logged out!'
+			// res.send(out)
+			res.render('admin/admin_login',{err:out})
+    }else{
+      res.send(err)
+    }
   })
 })
 module.exports = router

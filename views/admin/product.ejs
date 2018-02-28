@@ -11,7 +11,7 @@
 <body>
 	<div class = "container">
   <h1>List Products</h1>
-    <a href="/admin/products/add"><button type="button" class="btn btn-success">Add Products</button></a> <br />
+    <a href="/admin/home/products/add"><button type="button" class="btn btn-success">Add Products</button></a> <br />
     <center>
     <table class = "table">
 			<thead>
@@ -33,14 +33,14 @@
 					<td><%=item.id%></td>
 					<td><%=item.name%></td>
 					<td><%=item.stock%></td>
-          <td><%=item.price%></td>
+          <td><%=format.formatCurrency(item.price)%></td>
           <td><%=item.description%></td>
 					<%if(item.Category!== null){%>
 							<td><%=item.Category.name%></td>
 					<%}else{%>
 						<td>No Category yet</td>
 					<%}%>
-					<td><a href = "/admin/products/edit/<%=item.id%>"><button type="button" class="btn btn-info">Edit</button></a>  <a href = "/admin/products/delete/<%=item.id%>" onclick="return confirm('Delete item ?')"><button type="button" class="btn btn-danger">Delete</button></a> </td>
+					<td><a href = "/admin/home/products/edit/<%=item.id%>"><button type="button" class="btn btn-info">Edit</button></a>  <a href = "/admin/home/products/delete/<%=item.id%>" onclick="return confirm('Delete item ?')"><button type="button" class="btn btn-danger">Delete</button></a> </td>
 				</tr>
 				<%})%>
 			</tbody>

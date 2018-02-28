@@ -7,12 +7,13 @@ module.exports = (sequelize, DataTypes) => {
     description: DataTypes.TEXT,
     image: DataTypes.STRING,
     id_category: DataTypes.INTEGER
-  }, {
-    classMethods: {
-      associate: function(models) {
-        // associations can be defined here
-      }
-    }
   });
+
+  Product.associate = function(models){
+    Product.belongsToMany(models.Order,{through :models.Order_Product,foreignKey: 'id_product'})
+    Product.hasMany(models.Order_Product,{foreignKey: 'id_product'})
+    Product.belongsTo(models.Category,{foreignKey: 'id_category'})
+  };
+
   return Product;
 };

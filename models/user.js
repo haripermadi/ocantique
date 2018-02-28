@@ -8,12 +8,11 @@ module.exports = (sequelize, DataTypes) => {
     phone: DataTypes.STRING,
     address: DataTypes.STRING,
     role: DataTypes.INTEGER
-  }, {
-    classMethods: {
-      associate: function(models) {
-        // associations can be defined here
-      }
-    }
   });
+
+  User.associate = function(models){
+    User.hasMany(models.Order,{foreignKey: 'id_user'})
+    };
+
   return User;
 };

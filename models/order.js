@@ -4,12 +4,14 @@ module.exports = (sequelize, DataTypes) => {
     id_user: DataTypes.INTEGER,
     amount: DataTypes.FLOAT,
     status: DataTypes.STRING
-  }, {
-    classMethods: {
-      associate: function(models) {
-        // associations can be defined here
-      }
-    }
   });
+
+  Order.associate = function(models){
+    Order.belongsToMany(models.Product,{through :models.Order_Product,foreignKey: 'id_order'})
+    Order.hasMany(models.Order_Product,{foreignKey: 'id_order'})
+    Order.belongsTo(models.User,{foreignKey: 'id_user'})
+  };
+
   return Order;
 };
+

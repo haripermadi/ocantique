@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Add Product</title>
+  </head>
+  <body>
+    <div class ="container">
+	  <center>
+      <h1>Add Items Data</h1>
+      <a href = "/admin/products">show all data</a>
+          <form class= 'form-inline' action='/admin/products/add' method = 'post'>
+            <label>Name</label></br>
+            <input type ='text' placeholder='Product name...' class="form-control"  name='name'> </br>
+            <label>Price</label></br>
+            <input type ='number' placeholder='ex:1000.' class="form-control"  name='price'> </br>
+            <label>Stock</label></br>
+            <input type ='number' placeholder='ex:10' class="form-control"  name='stock'> </br>
+            <label>Description</label></br>
+            <input type = 'text' placeholder= 'desc..' class="form-control" name="description" ></br>
+            <label>Image</label></br>
+            <input type ='text' placeholder='image' class="form-control"  name='image'> </br>
+            <label>Id Category</label></br>
+            <input type ='number' placeholder='ex:1' class="form-control"  name='id_category'> </br>
+          </br>
+            <button type="submit" class="btn btn-success"> Add Item </button>  <a href = '/admin/products'><button type="button" name="button" class="btn btn-danger"> Cancel </button></a> 
+      </form> 
+    </center>
+  </div>
+  </body>
+</html>

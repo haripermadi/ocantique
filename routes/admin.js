@@ -4,6 +4,7 @@ const router = express.Router()
 const models = require('../models')
 const product = models.Product
 const category = models.Category
+const currency  = require('../helpers/currency')
 
 
 router.get('/',function(req,res){
@@ -15,14 +16,19 @@ router.get('/products',function(req,res){
     include:[category]
   }).then(detail=>{
     // res.send(detail)
-    res.render('admin/product',{data:detail})
+    res.render('admin/product',{data:detail,format:currency})
   }).catch(err=>{
     res.send(err)
   })
 })
 
 router.get('/products/add',function(req,res){
-  res.render('admin/add_product')
+  category.findAll().then(data=>{
+    res.render('admin/add_product',{tag:data})
+  }).catch(err=>{
+    res.send(err)
+  })
+  
 })
 
 router.post('/products/add',function(req,res){

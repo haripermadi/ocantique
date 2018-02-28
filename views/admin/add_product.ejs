@@ -21,8 +21,12 @@
             <input type = 'text' placeholder= 'desc..' class="form-control" name="description" ></br>
             <label>Image</label></br>
             <input type ='text' placeholder='image' class="form-control"  name='image'> </br>
-            <label>Id Category</label></br>
-            <input type ='number' placeholder='ex:1' class="form-control"  name='id_category'> </br>
+            <label>Category</label></br>
+            <select name = "id_category">
+              <%tag.forEach(data =>{%>
+                <option value = "<%=data.id%>"><%=data.id%>-<%=data.name%></option>								
+              <%})%>
+            </select>
           </br>
             <button type="submit" class="btn btn-success"> Add Item </button>  <a href = '/admin/products'><button type="button" name="button" class="btn btn-danger"> Cancel </button></a> 
       </form> 

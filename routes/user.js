@@ -4,11 +4,11 @@ const Model = require('../models')
 const op = require('sequelize').Op
 
 router.get('/',(req, res)=> {
-    // Model.Product.findAll().then(data=>{
-    //     res.render('index',{product:data})
-    // }).catch(err=>{
-    //     res.send(err)
-    // })
+    Model.Product.findAll().then(data=>{
+        res.render('index',{product:data})
+    }).catch(err=>{
+        res.send(err)
+    })
 })
 router.get('/detailProduct/:id',(req, res)=> {
     Model.Product.findById(req.params.id).then(data=>{
@@ -33,21 +33,6 @@ router.post('/register',(req, res)=> {
         res.send(err)
     })
 })
-router.get('/login',(req, res)=> {
-    res.render('users/login')
-})
-router.post('/login',(req, res)=> {
-    Model.User.findOne({
-        where:{
-            email : req.params.email,
-            // password : req.params.password
-        }
-    }).then(data=>{
-        res.send(data)
-        // res.redirect('/')
-    }).catch(err=>{
-        res.send(err)
-    })
-})
+
 
 module.exports = router

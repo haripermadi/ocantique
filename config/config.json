@@ -3,7 +3,7 @@
     "username": "hvkrgbjl",
     "password": "MuVZwH7USdtHkQF_oXvp20L2-4q6YStI",
     "database": "hvkrgbjl",
-    "host": "baasu.db.elephantsql.com ",
+    "host": "baasu.db.elephantsql.com",
     "dialect": "postgres"
   },
   "test": {

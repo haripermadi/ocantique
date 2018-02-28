@@ -11,7 +11,7 @@
 <body>
 	<div class = "container">
   <h1>List Products</h1>
-    <a href="/admin/products/add"><button type="button" class="btn btn-success">Add Products</button></a> <br />
+    <a href="/admin/home/products/add"><button type="button" class="btn btn-success">Add Products</button></a> <br />
     <center>
     <table class = "table">
 			<thead>
@@ -40,7 +40,7 @@
 					<%}else{%>
 						<td>No Category yet</td>
 					<%}%>
-					<td><a href = "/admin/products/edit/<%=item.id%>"><button type="button" class="btn btn-info">Edit</button></a>  <a href = "/admin/products/delete/<%=item.id%>" onclick="return confirm('Delete item ?')"><button type="button" class="btn btn-danger">Delete</button></a> </td>
+					<td><a href = "/admin/home/products/edit/<%=item.id%>"><button type="button" class="btn btn-info">Edit</button></a>  <a href = "/admin/home/products/delete/<%=item.id%>" onclick="return confirm('Delete item ?')"><button type="button" class="btn btn-danger">Delete</button></a> </td>
 				</tr>
 				<%})%>
 			</tbody>

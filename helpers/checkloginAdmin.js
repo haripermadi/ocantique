@@ -4,7 +4,7 @@ function checkLoginAdmin(req,res,next){
     next()
   }else{
     let err = 'Admin only!!'
-    res.send(err)
+    res.render('admin/admin_login',{err:err})
   }
 
 }

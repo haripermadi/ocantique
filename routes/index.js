@@ -49,7 +49,7 @@ router.post('/register',(req, res)=> {
         err = 'Verifikasi password tidak sesuai dengan password !!'
         res.render('users/register',{error:err})
     }else{
-        Model.User.create({
+        user.create({
             first_name :req.body.first_name,
             last_name :req.body.last_name,
             email:req.body.email,
@@ -63,6 +63,7 @@ router.post('/register',(req, res)=> {
             res.render('users/register', {error:err.errors[0].message})
         })
     }
+
 })
 
 router.get('/logout',function(req,res){

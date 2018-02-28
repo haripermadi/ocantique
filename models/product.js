@@ -15,5 +15,13 @@ module.exports = (sequelize, DataTypes) => {
     Product.belongsTo(models.Category,{foreignKey: 'id_category'})
   };
 
+  Product.prototype.length = function () {
+    if (this.description.length > 100) {
+      let content = this.description.slice(0,99)
+      return content + '...'
+    }else{
+      return this.description
+    }
+  }
   return Product;
 };

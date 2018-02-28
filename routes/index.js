@@ -45,19 +45,19 @@ router.get('/register',(req, res)=> {
 })
 
 router.post('/register',(req, res)=> {
-    Model.User.create({
-        first_name :req.body.first_name,
-        last_name :req.body.last_name,
-        email:req.body.email,
-        password:req.body.password,
-        phone:req.body.phone,
-        address:req.body.address,
-        role:1
-    }).then(()=>{
-        res.redirect('/')
-    }).catch(err=>{
-        res.send(err)
-    })
+  user.create({
+      first_name :req.body.first_name,
+      last_name :req.body.last_name,
+      email:req.body.email,
+      password:req.body.password,
+      phone:req.body.phone,
+      address:req.body.address,
+      role:1
+  }).then(()=>{
+      res.redirect('/')
+  }).catch(err=>{
+      res.send(err)
+  })
 })
 
 router.get('/logout',function(req,res){

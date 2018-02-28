@@ -34,7 +34,7 @@
 					<td><%=item.name%></td>
 					<td><%=item.stock%></td>
           <td><%=format.formatCurrency(item.price)%></td>
-          <td><%=item.description%></td>
+          <td><%=item.length(item.description)%></td>
 					<%if(item.Category!== null){%>
 							<td><%=item.Category.name%></td>
 					<%}else{%>

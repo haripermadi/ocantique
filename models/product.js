@@ -23,5 +23,11 @@ module.exports = (sequelize, DataTypes) => {
       return this.description
     }
   }
+  Product.getExpensive = function(){
+    return Product.findAll({order:[['price','desc']],limit:3,
+    include:[sequelize.models.Category]
+  })
+  }
+  
   return Product;
 };

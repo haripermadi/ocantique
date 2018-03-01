@@ -3,50 +3,65 @@ const router = express.Router()
 const Model = require('../models')
 const op = require('sequelize').Op
 
-
+router.get('/detailProduct/:id',(req, res)=> {
+    let session = req.session.isLogin
+    Model.Product.findById(req.params.id).then(data=>{
+        // res.send(data)
+        res.render('users/detailProduk',{product:data,session:session})
+    }).catch(err=>{
+        res.send(err)
+    })
+  })
 router.post('/buyProduct/:id',(req, res)=> {
     console.log('session chek buy',req.session)
-    Model.Order.findOne({
-        where:{
-            id_user: req.session.UserId,
-            status:'pending'
-        }
-    }).then(data=>{
-        if(!data){
-            Model.Order.create({
-                id_user : req.session.UserId,
-                status : 'pending'
-            }).then(dataOrder=>{
-            //    res.send(dataOrder)
+    let session = req.session.isLogin
+    if(session){
+        Model.Order.findOne({
+            where:{
+                id_user: req.session.UserId,
+                status:'pending'
+            }
+        }).then(data=>{
+            if(!data){
+                Model.Order.create({
+                    id_user : req.session.UserId,
+                    status : 'pending'
+                }).then(dataOrder=>{
+                //    res.send(dataOrder)
+                    Model.Order_Product.create({
+                        id_product : req.params.id,
+                        id_order: dataOrder.id,
+                        quantity : req.body.quantity,
+                    }).then(()=>{
+                        res.redirect('/')
+                    }).catch(err=>{
+                        res.send(err)
+                    })
+                }).catch(err=>{
+                    res.send(err)
+                })
+            }else{
                 Model.Order_Product.create({
                     id_product : req.params.id,
-                    id_order: dataOrder.id,
-                    quantity : req.body.quantity,
+                    id_order  :data.id,
+                    quantity  : req.body.quantity,
                 }).then(()=>{
                     res.redirect('/')
                 }).catch(err=>{
                     res.send(err)
                 })
-            }).catch(err=>{
-                res.send(err)
-            })
-        }else{
-            Model.Order_Product.create({
-                id_product : req.params.id,
-                id_order  :data.id,
-                quantity  : req.body.quantity,
-            }).then(()=>{
-                res.redirect('/')
-            }).catch(err=>{
-                res.send(err)
-            })
-        }
-    })
+            }
+        })
+    }else{
+        res.render('users/login',{session:session})
+    }
+    
         
 })
 
 router.get('/cart',(req, res)=> {
     console.log('session cart',req.session)
+    let session = req.session.isLogin
     Model.Order.findOne({
         include:[Model.Product, Model.User, Model.Order_Product],
         where:{
@@ -61,13 +76,14 @@ router.get('/cart',(req, res)=> {
         }
         //res.send(dataProduct.Products[0].price)
         // res.send('----')
-        res.render('users/cartProduct',{product:data, payment:totalPayment})
+        res.render('users/cartProduct',{product:data, payment:totalPayment,session:session})
         
     }).catch(err=>{
-        res.render('users/cartProduct',{product:null})
+        res.render('users/cartProduct',{product:null,session:session})
     })
 })
 router.post('/checkout',(req, res)=> {
+    let session = req.session.isLogin
     Model.Order.update({
       amount :req.body.amount,
       status : 'process',
@@ -83,7 +99,7 @@ router.post('/checkout',(req, res)=> {
                 status:'process'
             }
         }).then(data=>{
-            res.render('users/invoice',{product:data})            
+            res.render('users/invoice',{product:data,session:session})            
         }).catch(err=>{
             res.send(err)
         })
@@ -92,6 +108,7 @@ router.post('/checkout',(req, res)=> {
     })
 })
 router.get('/history',(req,res)=>{
+    let session = req.session.isLogin
     Model.Order.findOne({
         include:[Model.Product, Model.User, Model.Order_Product],
         where:{
@@ -99,9 +116,9 @@ router.get('/history',(req,res)=>{
             status:'process'
         }
     }).then(data=>{
-        res.render('users/invoice',{product:data})            
+        res.render('users/invoice',{product:data,session:session})            
     }).catch(err=>{
-        res.render('users/invoice',{product:null}) 
+        res.render('users/invoice',{product:null,session:session}) 
     })
 })
 router.get('/search',(req,res)=>{

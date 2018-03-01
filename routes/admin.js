@@ -56,9 +56,7 @@ router.post('/register',(req, res)=> {
 router.get('/logout',function(req,res){
   req.session.destroy(err=>{
     if(!err){
-      let out = 'You have logged out!'
-			// res.send(out)
-			res.render('admin/admin_login',{err:out})
+			res.redirect('/admin')
     }else{
       res.send(err)
     }

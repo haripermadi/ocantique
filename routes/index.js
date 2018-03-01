@@ -6,23 +6,26 @@ const models = require('../models')
 const user = models.User
 
 router.get('/',(req, res)=> {
+  let session = req.session.isLogin
   models.Product.findAll().then(data=>{
     console.log('session index',req.session)
-      res.render('index',{product:data})
+      res.render('index',{product:data,session:session})
   }).catch(err=>{
       res.send(err)
   })
 })
 router.get('/detailProduct/:id',(req, res)=> {
+  let session = req.session.isLogin
   models.Product.findById(req.params.id).then(data=>{
       // res.send(data)
-      res.render('users/detailProduk',{product:data})
+      res.render('users/detailProduk',{product:data,session:session})
   }).catch(err=>{
       res.send(err)
   })
 })
 router.get('/login',(req, res)=> {
-  res.render('users/login',{err:null})
+  let session = req.session.isLogin
+  res.render('users/login',{error:null,session:session})
 })
 
 router.post('/login',(req, res)=> {
@@ -59,13 +62,15 @@ router.post('/login',(req, res)=> {
 })
 
 router.get('/register',(req, res)=> {
-    res.render('users/register',{error:null})
+  let session = req.session.isLogin
+    res.render('users/register',{error:null,session:session})
 })
 
 router.post('/register',(req, res)=> {
+  let session = req.session.isLogin
     if(req.body.password != req.body.retype_password){
         err = 'Verifikasi password tidak sesuai dengan password !!'
-        res.render('users/register',{error:err})
+        res.render('users/register',{error:err,session:session})
     }else{
         user.create({
             first_name :req.body.first_name,
@@ -78,22 +83,25 @@ router.post('/register',(req, res)=> {
         }).then(()=>{
             res.redirect('/login')
         }).catch(err=>{
-            res.render('users/register', {error:err.errors[0].message})
+            res.render('users/register', {error:err.errors[0].message,session:session})
         })
     }
 
 })
 
 router.get('/logout',function(req,res){
-  req.session.destroy(err=>{
+  let session = req.session.isLogin
+  console.log("before log out",req.session)
+  req.session.destroy(function(err){
     if(!err){
       let out = 'You have logged out!'
-			// res.send(out)
-			res.render('users/login',{err:out})
+      // res.send(out)
+			res.redirect('/login')
     }else{
       res.send(err)
     }
   })
+  console.log("log out",req.session)
 })
 
 module.exports = router

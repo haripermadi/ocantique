@@ -27,4 +27,4 @@ app.use('/admin/home',authLoginAdmin.checkLoginAdmin,product)
 app.use('/admin',admin)
 
 
-app.listen(3000, () => console.log('connected!'))
+app.listen(3000, () => console.log('connected!')) 

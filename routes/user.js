@@ -116,6 +116,13 @@ router.get('/history',(req,res)=>{
         res.render('users/invoice',{product:null}) 
     })
 })
+router.get('/search',(req,res)=>{
+    Model.Product.findAll({
+        where:{
+            
+        }
+    })
+})
 
 
 module.exports = router

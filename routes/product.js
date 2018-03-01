@@ -9,47 +9,54 @@ const currency  = require('../helpers/currency')
 
 
 router.get('/',function(req,res){
-  res.render('admin/index')
+  let session = req.session.isLogin
+  res.render('admin/index',{session:session})
+  console.log(req.session)
 })
 
 router.get('/products',function(req,res){
+  let session = req.session.isLogin
   product.findAll({
     include:[category]
   }).then(detail=>{
     // res.send(detail)
-    res.render('admin/product',{data:detail,format:currency})
+    res.render('admin/product',{data:detail,format:currency,session:session})
   }).catch(err=>{
     res.send(err)
   })
 })
 
 router.get('/products/add',function(req,res){
+  let session = req.session.isLogin
   category.findAll().then(data=>{
-    res.render('admin/add_product',{tag:data})
+    res.render('admin/add_product',{tag:data,session:session})
   }).catch(err=>{
-    res.send(err)
+    res.render('admin/add_product',{error:null})
   })
   
 })
 
 router.post('/products/add',function(req,res){
+  let session = req.session.isLogin
   product.create(req.body).then(data=>{
     res.redirect('/admin/home/products')
   }).catch(err=>{
-    res.send(err)
+    res.render('admin/add_product',{error:err.rrrors[0].message})
   })
 })
 
 router.get('/products/edit/:id',function(req,res){
+  let session = req.session.isLogin
   let id = req.params.id
   product.findOne({where:{id:id}}).then(data=>{
     // console.log(JSON.parse(JSON.stringify(data)))
-    res.render('admin/edit_product',{dataProduct:data})
+    res.render('admin/edit_product',{dataProduct:data,session:session})
   }).catch(err=>{
     res.send(err)
   })
 })
 router.post('/products/edit/:id',function(req,res){
+  let session = req.session.isLogin
   let id = req.params.id
   product.update(req.body,{
     where:{id:id}})

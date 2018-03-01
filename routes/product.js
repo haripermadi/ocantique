@@ -26,7 +26,15 @@ router.get('/products',function(req,res){
     res.send(err)
   })
 })
-
+router.get('/products/expensive',function(req,res){
+  let session = req.session.isLogin
+  product.getExpensive().then(detail=>{
+    // res.send(data)
+    res.render('admin/product',{data:detail,format:currency,session:session})
+  }).catch(err=>{
+    res.send(err)
+  })
+})
 router.get('/products/add',function(req,res){
   let session = req.session.isLogin
   category.findAll().then(data=>{

@@ -22,6 +22,7 @@ router.post('/buyProduct/:id',(req, res)=> {
                 status:'pending'
             }
         }).then(data=>{
+            console.log("======data find order",data)
             if(!data){
                 Model.Order.create({
                     id_user : req.session.UserId,

@@ -4,13 +4,15 @@
 <body>
 	<div class = "container">
   <h1>List Products</h1>
-    <a href="/admin/home/products/add"><button type="button" class="btn btn-success">Add Products</button></a> <br />
+		<a href="/admin/home/products/add"><button type="button" class="btn btn-success">Add Products</button></a>
+		<a href="/admin/home/products/expensive"><button type="button" class="btn btn-success">Expensive Goods</button></a> <br />
     <center>
     <table class = "table">
 			<thead>
 				<tr class ="info">
 					<th>No</th>
 					<th>ID</th>
+					<th>Picture</th>
 					<th>Name Product</th>
 					<th>Stock</th>
           <th>Price</th>
@@ -24,6 +26,9 @@
 				<tr>
 					<td><%=i+1%></td>
 					<td><%=item.id%></td>
+					<td>
+					<img src="<%=item.image%>" alt="image" style="width:50px;height:60px;">
+					</td>
 					<td><%=item.name%></td>
 					<td><%=item.stock%></td>
           <td><%=format.formatCurrency(item.price)%></td>

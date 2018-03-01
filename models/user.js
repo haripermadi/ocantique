@@ -95,6 +95,8 @@ module.exports = (sequelize, DataTypes) => {
   User.associate = function(models){
     User.hasMany(models.Order,{foreignKey: 'id_user'})
     };
-
+    User.prototype.getFullname = function () {
+      return `${this.first_name} ${this.last_name}`
+    }
   return User;
 };

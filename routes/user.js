@@ -3,31 +3,18 @@ const router = express.Router()
 const Model = require('../models')
 const op = require('sequelize').Op
 
-// router.get('/',(req, res)=> {
-//     Model.Product.findAll().then(data=>{
-//         res.render('index',{product:data})
-//     }).catch(err=>{
-//         res.send(err)
-//     })
-// })
-router.get('/detailProduct/:id',(req, res)=> {
-    Model.Product.findById(req.params.id).then(data=>{
-        // res.send(data)
-        res.render('users/detailProduk',{product:data})
-    }).catch(err=>{
-        res.send(err)
-    })
-})
+
 router.post('/buyProduct/:id',(req, res)=> {
+    console.log('session chek buy',req.session)
     Model.Order.findOne({
         where:{
-            id_user: 5,
+            id_user: req.session.UserId,
             status:'pending'
         }
     }).then(data=>{
         if(!data){
             Model.Order.create({
-                id_user : 5,
+                id_user : req.session.UserId,
                 status : 'pending'
             }).then(dataOrder=>{
             //    res.send(dataOrder)
@@ -59,10 +46,11 @@ router.post('/buyProduct/:id',(req, res)=> {
 })
 
 router.get('/cart',(req, res)=> {
+    console.log('session cart',req.session)
     Model.Order.findOne({
         include:[Model.Product, Model.User, Model.Order_Product],
         where:{
-            id_user:5,
+            id_user:req.session.UserId,
             status:'pending'
         }
     }).then(data=>{
@@ -85,13 +73,13 @@ router.post('/checkout',(req, res)=> {
       status : 'process',
     },{
         where:{
-            id_user:5,
+            id_user:req.session.UserId,
         }
     }).then(()=>{
         Model.Order.findOne({
             include:[Model.Product, Model.User, Model.Order_Product],
             where:{
-                id_user:5,
+                id_user:req.session.UserId,
                 status:'process'
             }
         }).then(data=>{
@@ -107,7 +95,7 @@ router.get('/history',(req,res)=>{
     Model.Order.findOne({
         include:[Model.Product, Model.User, Model.Order_Product],
         where:{
-            id_user:5,
+            id_user:req.session.UserId,
             status:'process'
         }
     }).then(data=>{

@@ -7,6 +7,7 @@ const user = models.User
 
 router.get('/',(req, res)=> {
   models.Product.findAll().then(data=>{
+    console.log('session index',req.session)
       res.render('index',{product:data})
   }).catch(err=>{
       res.send(err)
@@ -39,7 +40,9 @@ router.post('/login',(req, res)=> {
       if(obj.email === data.email && data.role === 1 && result){
         req.session.isLogin = true
         req.session.type = data.role
-        req.session.id = data.id
+        req.session.UserId = data.id
+        console.log("id user",data.id)
+        console.log(req.session)
         if(data.role === 1){
           // res.redirect('/user/${data.id}')
           res.redirect(`/`)
@@ -73,7 +76,7 @@ router.post('/register',(req, res)=> {
             address:req.body.address,
             role:1
         }).then(()=>{
-            res.redirect('/')
+            res.redirect('/login')
         }).catch(err=>{
             res.render('users/register', {error:err.errors[0].message})
         })

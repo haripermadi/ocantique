@@ -30,13 +30,20 @@ router.post('/buyProduct/:id',(req, res)=> {
                 id_user : 5,
                 status : 'pending'
             }).then(dataOrder=>{
-            //    res.send(dataOrder)
                 Model.Order_Product.create({
                     id_product : req.params.id,
                     id_order: dataOrder.id,
                     quantity : req.body.quantity,
-                }).then(()=>{
+                }).then(newData=>{
+                    res.send(newData)
                     res.redirect('/')
+                    Model.Product.update({
+                        stock : stock-newData.quantity
+                    },{
+                        where:{
+                            id: newData.id_product
+                        }
+                    })
                 }).catch(err=>{
                     res.send(err)
                 })
@@ -50,6 +57,16 @@ router.post('/buyProduct/:id',(req, res)=> {
                 quantity  : req.body.quantity,
             }).then(()=>{
                 res.redirect('/')
+                //res.send(req.params.id)
+                    Model.Product.update({
+                        stock : stock-req.body.quantity
+                    },{
+                        where:{
+                            id: req.params.id
+                        }
+                    }).then(data=>{
+                        res.send(data)
+                    })
             }).catch(err=>{
                 res.send(err)
             })
@@ -95,7 +112,8 @@ router.post('/checkout',(req, res)=> {
                 status:'process'
             }
         }).then(data=>{
-            res.render('users/invoice',{product:data})            
+            // res.send(data)
+            res.render('users/invoice',{product:data})        
         }).catch(err=>{
             res.send(err)
         })
@@ -116,13 +134,5 @@ router.get('/history',(req,res)=>{
         res.render('users/invoice',{product:null}) 
     })
 })
-router.get('/search',(req,res)=>{
-    Model.Product.findAll({
-        where:{
-            
-        }
-    })
-})
-
 
 module.exports = router

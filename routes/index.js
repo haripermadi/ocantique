@@ -3,6 +3,7 @@ const app = express();
 const router = express.Router()
 const bcrypt = require('bcrypt');
 const models = require('../models')
+const Op = require('sequelize').Op
 const user = models.User
 
 router.get('/',(req, res)=> {
@@ -12,6 +13,31 @@ router.get('/',(req, res)=> {
       res.send(err)
   })
 })
+router.get('/search',(req, res)=> {
+  models.Product.findAll({
+    where :{
+      name :{
+        [Op.iLike] : `%${req.query.search}%`
+      }
+    }
+  }).then(data=>{
+     res.render('index',{product:data})
+  }).catch(err=>{
+      res.send(err)
+  })
+})
+
+router.get('/category',(req, res)=> {
+  models.Product.findAll({
+    include:[{model:models.Category,where:{name :{[Op.iLike] : `%${req.query.category}%`}}}],
+  }).then(data=>{
+    // res.send(data)
+     res.render('index',{product:data})
+  }).catch(err=>{
+      res.send(err)
+  })
+})
+
 router.get('/detailProduct/:id',(req, res)=> {
   models.Product.findById(req.params.id).then(data=>{
       // res.send(data)

@@ -9,28 +9,32 @@
 </head>
 <body>
     <nav class="navbar navbar-inverse">
-        <div class="container-fluid">
-          <div class="navbar-header">
-            <a class="navbar-brand" href="#">Ocantique</a>
+            <a class="navbar-brand" href="/">Ocantique</a>
           </div>
           <ul class="nav navbar-nav">
-            <li class="active"><a href="/">Home</a></li>
+            <li><a href="/">Home</a></li>
             <li><a href="/register">Register</a></li>
             <li><a href="/login">Login</a></li>
             <li><a href="/logout">Logout</a></li>
-          </ul>
-          <form class="navbar-form navbar-left" action="/search" method="GET"
-            <div class="form-group">
-              <input type="text" class="form-control" name = "search" placeholder="Search">
-            </div>
-            <button type="submit" class="btn btn-default">Search</button>
-          </form>
-          <a href="/users/cart">
-            <span class=" navbar-brand glyphicon glyphicon-shopping-cart"></span>  
-          </a>
-          <a href="/users/history">
-            <span class=" navbar-brand glyphicon glyphicon-list-alt"></span>            
-          </a>
-        </div>
+          <li>
+              <form class="navbar-form navbar-left" action="/search" method="GET">
+                <div class="form-group">
+                  <input type="text" class="form-control" name = "search" placeholder="Search" size="45">
+                </div>
+              </form>
+          </li>
+          <li>
+              <a href="/users/cart">
+                <span class="glyphicon glyphicon-shopping-cart"></span>  
+              </a>
+          </li>
+          <li>
+              <a href="/users/history">
+                <span class="glyphicon glyphicon-list-alt"></span>            
+              </a>
+          </li>
+         
+        </ul>
+      </div>
       </nav> 
 </body>

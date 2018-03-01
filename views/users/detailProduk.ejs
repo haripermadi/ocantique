@@ -2,6 +2,7 @@
 <div class="container">
     <table class="table table-stripped">
         <thead>
+            <th>Image</th>
             <th>Name</th>
             <th>Price</th>
             <th>Stock</th>
@@ -10,6 +11,9 @@
         </thead>
         <thead>
             <tr>
+                <td>
+                    <img src="<%=product.image%>" style ="width:300px;height:330px">
+                </td>
                 <td><%=product.name%></td>
                 <td><%=product.price%></td>
                 <td><%=product.stock%></td>

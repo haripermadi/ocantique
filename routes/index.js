@@ -16,6 +16,7 @@ router.get('/',(req, res)=> {
   })
 })
 router.get('/search',(req, res)=> {
+  let session = req.session.isLogin 
   models.Product.findAll({
     where :{
       name :{
@@ -23,18 +24,19 @@ router.get('/search',(req, res)=> {
       }
     }
   }).then(data=>{
-     res.render('index',{product:data})
+     res.render('index',{product:data,session:session})
   }).catch(err=>{
       res.send(err)
   })
 })
 
 router.get('/category',(req, res)=> {
+  let session = req.session.isLogin 
   models.Product.findAll({
     include:[{model:models.Category,where:{name :{[Op.iLike] : `%${req.query.category}%`}}}],
   }).then(data=>{
     // res.send(data)
-     res.render('index',{product:data})
+     res.render('index',{product:data,session:session})
   }).catch(err=>{
       res.send(err)
   })

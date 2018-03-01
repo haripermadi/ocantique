@@ -28,7 +28,6 @@ router.post('/buyProduct/:id',(req, res)=> {
                     id_user : req.session.UserId,
                     status : 'pending'
                 }).then(dataOrder=>{
-                //    res.send(dataOrder)
                     Model.Order_Product.create({
                         id_product : req.params.id,
                         id_order: dataOrder.id,
@@ -47,52 +46,17 @@ router.post('/buyProduct/:id',(req, res)=> {
                     id_order  :data.id,
                     quantity  : req.body.quantity,
                 }).then(()=>{
-                    res.redirect('/')
-                    Model.Product.update({
-                        stock : stock-newData.quantity
-                    },{
-                        where:{
-                            id: newData.id_product
-                        }
-                    })
+                   res.redirect('/')
                 }).catch(err=>{
                     res.send(err)
                 })
-
-            }).catch(err=>{
-                res.send(err)
-            })
-        }else{
-            Model.Order_Product.create({
-                id_product : req.params.id,
-                id_order  :data.id,
-                quantity  : req.body.quantity,
-            }).then(()=>{
-                res.redirect('/')
-                //res.send(req.params.id)
-                    Model.Product.update({
-                        stock : stock-req.body.quantity
-                    },{
-                        where:{
-                            id: req.params.id
-                        }
-                    }).then(data=>{
-                        res.send(data)
-                    })
-            }).catch(err=>{
-                res.send(err)
-            })
-        }
-    })
-
             }
-        })
+        }).catch(err=>{
+            res.send(err)
+    })   
     }else{
         res.render('users/login',{session:session})
-    }
-    
-
-        
+    }     
 })
 
 router.get('/cart',(req, res)=> {
@@ -110,6 +74,7 @@ router.get('/cart',(req, res)=> {
         for(let i=0; i<dataProduct.Products.length; i++){
             totalPayment+=(dataProduct.Products[i].price * dataProduct.Products[i].Order_Product.quantity)
         }
+        // res.send(data)
         //res.send(dataProduct.Products[0].price)
         // res.send('----')
         res.render('users/cartProduct',{product:data, payment:totalPayment,session:session})
@@ -135,8 +100,32 @@ router.post('/checkout',(req, res)=> {
                 status:'process'
             }
         }).then(data=>{
-
-            res.render('users/invoice',{product:data,session:session})            
+            // res.send(data)
+            data.Products.forEach(dataProduct=>{
+                Model.Product.update({
+                    stock :(dataProduct.stock - dataProduct.Order_Product.quantity)
+                },{
+                    where:{
+                        id: dataProduct.id
+                    }
+                }).then(()=>{    
+                })
+            })
+            res.render('users/invoice',{product:data, session:session})
+                const api_key = 'key-c308389542e723498950204fda7a0626';
+                const domain = 'sandboxfb581af684184131ad001e8c60137c43.mailgun.org';
+                const mailgun = require('mailgun-js')({apiKey: api_key, domain: domain});
+                
+                const formemail = {
+                from: 'Ocantique <postmaster@sandboxfb581af684184131ad001e8c60137c43.mailgun.org>',
+                to: 'srohimah29@gmail.com',
+                subject: 'Invoice',
+                html:  'terimakasih atas kepercayaan anda'
+                };
+                
+                mailgun.messages().send(formemail, function (error, body) {
+                console.log(body);
+                });            
         }).catch(err=>{
             res.send(err)
         })

@@ -1,9 +1,10 @@
 <%include ../partials/header%>
 <center>
     <form action="/login" method="POST">
-        <%if(err !== null){%>
-            <div class="alert alert-danger">
-              <strong>!</strong> <%=err%>
+        <%if(typeof error === 'object'  && error){%>
+            <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+              <strong>!</strong> <%=error%>
             </div>
             <%}%> 
         <input type="email" placeholder="Email" name="email"><br>

@@ -47,15 +47,50 @@ router.post('/buyProduct/:id',(req, res)=> {
                     quantity  : req.body.quantity,
                 }).then(()=>{
                     res.redirect('/')
+                    Model.Product.update({
+                        stock : stock-newData.quantity
+                    },{
+                        where:{
+                            id: newData.id_product
+                        }
+                    })
                 }).catch(err=>{
                     res.send(err)
                 })
+
+            }).catch(err=>{
+                res.send(err)
+            })
+        }else{
+            Model.Order_Product.create({
+                id_product : req.params.id,
+                id_order  :data.id,
+                quantity  : req.body.quantity,
+            }).then(()=>{
+                res.redirect('/')
+                //res.send(req.params.id)
+                    Model.Product.update({
+                        stock : stock-req.body.quantity
+                    },{
+                        where:{
+                            id: req.params.id
+                        }
+                    }).then(data=>{
+                        res.send(data)
+                    })
+            }).catch(err=>{
+                res.send(err)
+            })
+        }
+    })
+
             }
         })
     }else{
         res.render('users/login',{session:session})
     }
     
+
         
 })
 
@@ -99,6 +134,7 @@ router.post('/checkout',(req, res)=> {
                 status:'process'
             }
         }).then(data=>{
+
             res.render('users/invoice',{product:data,session:session})            
         }).catch(err=>{
             res.send(err)
@@ -121,13 +157,5 @@ router.get('/history',(req,res)=>{
         res.render('users/invoice',{product:null,session:session}) 
     })
 })
-router.get('/search',(req,res)=>{
-    Model.Product.findAll({
-        where:{
-            
-        }
-    })
-})
-
 
 module.exports = router

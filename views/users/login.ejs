@@ -1,9 +1,9 @@
 <%include ../partials/header%>
 <center>
-    <form action="/" method="POST">
+    <form action="/login" method="POST">
         <%if(err !== null){%>
             <div class="alert alert-danger">
-              <strong>Error!</strong> <%=err%>
+              <strong>!</strong> <%=err%>
             </div>
             <%}%> 
         <input type="email" placeholder="Email" name="email"><br>

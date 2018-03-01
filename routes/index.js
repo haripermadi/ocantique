@@ -5,12 +5,26 @@ const bcrypt = require('bcrypt');
 const models = require('../models')
 const user = models.User
 
-
 router.get('/',(req, res)=> {
+  models.Product.findAll().then(data=>{
+      res.render('index',{product:data})
+  }).catch(err=>{
+      res.send(err)
+  })
+})
+router.get('/detailProduct/:id',(req, res)=> {
+  models.Product.findById(req.params.id).then(data=>{
+      // res.send(data)
+      res.render('users/detailProduk',{product:data})
+  }).catch(err=>{
+      res.send(err)
+  })
+})
+router.get('/login',(req, res)=> {
   res.render('users/login',{err:null})
 })
 
-router.post('/',(req, res)=> {
+router.post('/login',(req, res)=> {
   // console.log("======",req.body)
   let obj = {
     email:req.body.email,
@@ -25,11 +39,12 @@ router.post('/',(req, res)=> {
       if(obj.email === data.email && data.role === 1 && result){
         req.session.isLogin = true
         req.session.type = data.role
+        req.session.id = data.id
         if(data.role === 1){
           // res.redirect('/user/${data.id}')
-          res.redirect(`/users`)
+          res.redirect(`/`)
         }else{
-          res.send('User only')
+          res.redirect('/admin')
         }
       }else{
         res.send('Email dan password salah!')

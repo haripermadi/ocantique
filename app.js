@@ -22,7 +22,7 @@ app.use(session({
 }))
 
 app.use('/', index)
-app.use('/users',authLogin.checkLogin,user)
+app.use('/users',user,)
 app.use('/admin/home',authLoginAdmin.checkLoginAdmin,product)
 app.use('/admin',admin)
 

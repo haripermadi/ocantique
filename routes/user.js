@@ -98,7 +98,7 @@ router.post('/checkout',(req, res)=> {
             res.render('users/invoice',{product:data})            
         }).catch(err=>{
             res.send(err)
-        })w
+        })
     }).catch(err=>{
         res.send(err)
     })
@@ -114,6 +114,13 @@ router.get('/history',(req,res)=>{
         res.render('users/invoice',{product:data})            
     }).catch(err=>{
         res.render('users/invoice',{product:null}) 
+    })
+})
+router.get('/search',(req,res)=>{
+    Model.Product.findAll({
+        where:{
+            
+        }
     })
 })
 

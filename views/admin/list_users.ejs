@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+		<% include ../partials/header_admin%>
+<body>
+	<div class = "container">
+  <h1>List Users</h1>
+    <table class = "table">
+			<thead>
+				<tr class ="info">
+					<th>No</th>
+					<th>ID</th>
+					<th>Full Name</th>
+					<th>Email</th>
+          <th>Phone</th>
+					<th>Address</th>
+					<th>Order</th>
+				</tr>
+			</thead>
+			<tbody>
+				<%data.forEach((user,i) => {%>
+				<tr>
+					<td><%=i+1%></td>
+					<td><%=user.id%></td>
+					<td><%=user.getFullname()%></td>
+					<td><%=user.email%></td>
+					<td><%=user.phone%></td>
+					<td><%=user.address%></td>
+					<td><a href="/admin/home/users/<%=user.id%>/view">view</a></td>
+					<%})%>
+			</tbody>
+    </table>
+</center>
+</div>
+</body>
+</html>

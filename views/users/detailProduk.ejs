@@ -1,0 +1,30 @@
+<%include ../partials/header%>
+<div class="container">
+    <table class="table table-stripped">
+        <thead>
+            <th>Image</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Stock</th>
+            <th>Description</th>
+            <th>Buy</th>
+        </thead>
+        <thead>
+            <tr>
+                <td>
+                    <img src="<%=product.image%>" style ="width:300px;height:330px">
+                </td>
+                <td><%=product.name%></td>
+                <td><%=format.formatCurrency(product.price)%></td>
+                <td><%=product.stock%></td>
+                <td><%=product.description%></td>
+                <td>
+                    <form action="/users/buyProduct/<%=product.id%>" method="POST">
+                        <input type="number" placeholder="quantity" name="quantity" min="1" max="<%=product.stock%>">
+                        <button>Add to Chart</button>
+                    </form>
+                </td>
+            </tr>
+        </thead>
+    </table>
+</div>

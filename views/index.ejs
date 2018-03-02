@@ -1,0 +1,26 @@
+<%include ./partials/header%>
+<%include ./partials/menu%>
+<div class="container">
+    <table class="table table-stripped">
+            <thead>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Detail</th>
+            </thead>
+            <thead>
+                <%product.forEach(data=>{%>
+                    <tr>
+                        <td>
+                            <img src="<%=data.image%>" style ="width:50px;heigh:60px">
+                        </td>
+                        <td><%=data.name%></td>
+                        <td><%=format.formatCurrency(data.price)%></td>
+                        <td>
+                            <a href="/detailProduct/<%=data.id%>"><button class="btn btn-success">lihat detail</button></a>
+                        </td>
+                    </tr>
+                <%})%>
+            </thead>
+    </table>
+</div>

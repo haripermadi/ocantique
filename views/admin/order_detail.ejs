@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+		<% include ../partials/header_admin%>
+<body>
+	<div class = "container">
+		<h5>Id Order :<%=data[0].id%> </h5><br/>
+		<h5>Status :<%=data[0].status%> </h5><br/>
+    <center>
+    <table class = "table">
+			<thead>
+				<tr class ="info">
+					<th>No</th>
+					<th>ID</th>
+					<th>Product Name</th>
+					<th>Price</th>
+				</tr>
+			</thead>
+			<tbody>
+				<%data[0].Products.forEach((order,i) => {%>
+				<tr>
+					<td><%=i+1%></td>
+					<td><%=order.id%></td>
+					<td><%=order.name%></td>
+					<td><%=order.price%></td>
+					
+					<%})%>
+					<tr>
+						<td>Total</td>
+						<td><%=total%></td>
+					</tr>
+					
+						<td>
+						<form action="/admin/home/users/<%=data[0].id%>/delivered" method="POST">
+							<input type="hidden" name="id_user" value = "<%=data[0].id_user%>">
+							<input type="hidden" name="amount" value = "<%=total%>">
+							<input type="hidden" name="status" value = "delivered">
+							<button class="btn btn-primary">Delivered</button>
+					</form>
+					</td>
+			</tbody>
+    </table>
+</center>
+</div>
+</body>
+</html>

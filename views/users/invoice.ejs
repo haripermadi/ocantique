@@ -1,0 +1,40 @@
+<%include ../partials/header%>
+
+<div class="container">
+    <% if (product === null){%>
+        <center>
+            <span>no item yet</span>
+        </center>
+    <%}else{%>
+
+    <h3>INVOICE</h3>
+    Name : <%=product.User.first_name%><br>
+    Email :<%=product.User.email%><br>
+    Phone :<%=product.User.phone%><br>
+    Address : <%=product.User.address%><br>
+    <table class="table">
+            <thead>
+                <th>Item</th>
+                <th>Quantity</th>
+                <th>price</th>
+                <th>Total</th>
+            </thead>
+            <tbody>
+                <%product.Products.forEach(data=>{%>
+                <tr>
+                    <td><%=data.name%></td>
+                    <td><%=data.Order_Product.quantity%></td>
+                    <td><%=format.formatCurrency(data.price)%></td>
+                    <td><%=format.formatCurrency(data.price * data.Order_Product.quantity)%></td>
+                </tr>           
+                <%})%>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>Total Payment</td>
+                    <td><b><%=format.formatCurrency(product.amount)%></b></td>
+                </tr>  
+            </tbody>
+    </table>
+    <%}%>
+</div>

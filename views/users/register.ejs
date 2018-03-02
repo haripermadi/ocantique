@@ -1,0 +1,19 @@
+<%include ../partials/header%>
+<center>
+    <%if (error !== null){%>
+        <div class="alert alert-danger alert-dismissible">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Error!</strong><%=error%>
+        </div>
+   <%}%>
+    <form action="/register" method="POST">
+        <input type="text" placeholder="First Name" name="first_name" required><br>
+        <input type="text" placeholder="Last Name" name="last_name" required><br>
+        <input type="email" placeholder="Email" name="email" required><br>
+        <input type="password" placeholder="Password" name="password" required><br>
+        <input type="password" placeholder="Retype Password" name="retype_password" required><br>
+        <input type="text" placeholder="Phone" name="phone" required><br>
+        <textarea placeholder="Address"  name="address" required></textarea><br>
+        <button>Register</button>
+    </form>
+</center>

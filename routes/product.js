@@ -18,7 +18,8 @@ router.get('/',function(req,res){
 router.get('/products',function(req,res){
   let session = req.session.isLogin
   product.findAll({
-    include:[category]
+    include:[category],
+    order:[['createdAt','asc']]
   }).then(detail=>{
     // res.send(detail)
     res.render('admin/product',{data:detail,format:currency,session:session})

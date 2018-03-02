@@ -116,6 +116,7 @@ router.post('/checkout/:id',(req, res)=> {
                 }).then(()=>{    
                 })
             })
+            
             res.render('users/invoice',{product:data, session:session,format:currency})
                 const api_key = 'key-c308389542e723498950204fda7a0626';
                 const domain = 'sandboxfb581af684184131ad001e8c60137c43.mailgun.org';

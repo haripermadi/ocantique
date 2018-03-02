@@ -9,7 +9,11 @@ const currency  = require('../helpers/currency')
 
 router.get('/',(req, res)=> {
   let session = req.session.isLogin
-  models.Product.findAll().then(data=>{
+  models.Product.findAll({
+    order:[['createdAt','desc']],
+    limit : 10
+
+  }).then(data=>{
     console.log('session index',req.session)
       res.render('index',{product:data,session:session,format:currency})
   }).catch(err=>{
@@ -25,7 +29,7 @@ router.get('/search',(req, res)=> {
       }
     }
   }).then(data=>{
-     res.render('index',{product:data,session:session})
+     res.render('index',{product:data,session:session,format:currency})
   }).catch(err=>{
       res.send(err)
   })
@@ -37,7 +41,7 @@ router.get('/category',(req, res)=> {
     include:[{model:models.Category,where:{name :{[Op.iLike] : `%${req.query.category}%`}}}],
   }).then(data=>{
     // res.send(data)
-     res.render('index',{product:data,session:session})
+     res.render('index',{product:data,session:session,format:currency})
   }).catch(err=>{
       res.send(err)
   })

@@ -5,12 +5,13 @@ const bcrypt = require('bcrypt');
 const models = require('../models')
 const Op = require('sequelize').Op
 const user = models.User
+const currency  = require('../helpers/currency')
 
 router.get('/',(req, res)=> {
   let session = req.session.isLogin
   models.Product.findAll().then(data=>{
     console.log('session index',req.session)
-      res.render('index',{product:data,session:session})
+      res.render('index',{product:data,session:session,format:currency})
   }).catch(err=>{
       res.send(err)
   })
@@ -46,7 +47,7 @@ router.get('/detailProduct/:id',(req, res)=> {
   let session = req.session.isLogin
   models.Product.findById(req.params.id).then(data=>{
       // res.send(data)
-      res.render('users/detailProduk',{product:data,session:session})
+      res.render('users/detailProduk',{product:data,session:session,format:currency})
   }).catch(err=>{
       res.send(err)
   })
@@ -57,6 +58,7 @@ router.get('/login',(req, res)=> {
 })
 
 router.post('/login',(req, res)=> {
+  let session = req.session.isLogin
   // console.log("======",req.body)
   let obj = {
     email:req.body.email,
@@ -81,7 +83,8 @@ router.post('/login',(req, res)=> {
           res.redirect('/admin')
         }
       }else{
-        res.send('Email dan password salah!')
+        // res.send('Email dan password salah!')
+        res.render('users/login',{error:'Email dan password salah!',session:session})
       }
     })  
   }).catch(err=>{

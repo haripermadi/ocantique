@@ -1,9 +1,9 @@
 {
   "development": {
-    "username": "hvkrgbjl",
-    "password": "MuVZwH7USdtHkQF_oXvp20L2-4q6YStI",
-    "database": "hvkrgbjl",
-    "host": "baasu.db.elephantsql.com",
+    "username": "postgres",
+    "password": "hari2018",
+    "database": "ocantique",
+    "host": "127.0.0.1",
     "dialect": "postgres"
   },
   "test": {

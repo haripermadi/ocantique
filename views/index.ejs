@@ -15,7 +15,7 @@
                             <img src="<%=data.image%>" style ="width:50px;heigh:60px">
                         </td>
                         <td><%=data.name%></td>
-                        <td><%=data.price%></td>
+                        <td><%=format.formatCurrency(data.price)%></td>
                         <td>
                             <a href="/detailProduct/<%=data.id%>"><button class="btn btn-success">lihat detail</button></a>
                         </td>

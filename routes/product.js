@@ -50,7 +50,7 @@ router.post('/products/add',function(req,res){
   product.create(req.body).then(data=>{
     res.redirect('/admin/home/products')
   }).catch(err=>{
-    res.render('admin/add_product',{error:err.rrrors[0].message})
+    res.render('admin/add_product',{error:err.errors[0].message})
   })
 })
 

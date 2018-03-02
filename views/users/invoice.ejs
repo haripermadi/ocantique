@@ -24,15 +24,15 @@
                 <tr>
                     <td><%=data.name%></td>
                     <td><%=data.Order_Product.quantity%></td>
-                    <td><%=data.price%></td>
-                    <td><%=data.price * data.Order_Product.quantity%></td>
+                    <td><%=format.formatCurrency(data.price)%></td>
+                    <td><%=format.formatCurrency(data.price * data.Order_Product.quantity)%></td>
                 </tr>           
                 <%})%>
                 <tr>
                     <td></td>
                     <td></td>
                     <td>Total Payment</td>
-                    <td><b><%=product.amount%></b></td>
+                    <td><b><%=format.formatCurrency(product.amount)%></b></td>
                 </tr>  
             </tbody>
     </table>

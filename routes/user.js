@@ -2,12 +2,13 @@ const express = require('express')
 const router = express.Router()
 const Model = require('../models')
 const op = require('sequelize').Op
+const currency  = require('../helpers/currency')
 
 router.get('/detailProduct/:id',(req, res)=> {
     let session = req.session.isLogin
     Model.Product.findById(req.params.id).then(data=>{
         // res.send(data)
-        res.render('users/detailProduk',{product:data,session:session})
+        res.render('users/detailProduk',{product:data,session:session,format:currency})
     }).catch(err=>{
         res.send(err)
     })
@@ -75,16 +76,18 @@ router.get('/cart',(req, res)=> {
             totalPayment+=(dataProduct.Products[i].price * dataProduct.Products[i].Order_Product.quantity)
         }
         // res.send(data)
+        console.log("====data checkout",data)
         //res.send(dataProduct.Products[0].price)
         // res.send('----')
-        res.render('users/cartProduct',{product:data, payment:totalPayment,session:session})
+        res.render('users/cartProduct',{product:data, payment:totalPayment,session:session,format:currency})
         
     }).catch(err=>{
         res.render('users/cartProduct',{product:null,session:session})
     })
 })
-router.post('/checkout',(req, res)=> {
+router.post('/checkout/:id',(req, res)=> {
     let session = req.session.isLogin
+    console.log("====ini id order",req.params.id)
     Model.Order.update({
       amount :req.body.amount,
       status : 'process',
@@ -92,11 +95,13 @@ router.post('/checkout',(req, res)=> {
         where:{
             id_user:req.session.UserId,
         }
-    }).then(()=>{
+    }).then((detail)=>{
+        // console.log('=====>',detail)
         Model.Order.findOne({
             include:[Model.Product, Model.User, Model.Order_Product],
             where:{
                 id_user:req.session.UserId,
+                id:req.params.id,
                 status:'process'
             }
         }).then(data=>{
@@ -111,7 +116,7 @@ router.post('/checkout',(req, res)=> {
                 }).then(()=>{    
                 })
             })
-            res.render('users/invoice',{product:data, session:session})
+            res.render('users/invoice',{product:data, session:session,format:currency})
                 const api_key = 'key-c308389542e723498950204fda7a0626';
                 const domain = 'sandboxfb581af684184131ad001e8c60137c43.mailgun.org';
                 const mailgun = require('mailgun-js')({apiKey: api_key, domain: domain});
@@ -142,7 +147,7 @@ router.get('/history',(req,res)=>{
             status:'process'
         }
     }).then(data=>{
-        res.render('users/invoice',{product:data,session:session})            
+        res.render('users/invoice',{product:data,session:session,format:currency})            
     }).catch(err=>{
         res.render('users/invoice',{product:null,session:session}) 
     })

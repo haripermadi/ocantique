@@ -9,7 +9,7 @@
         <%product.forEach(data=>{%>
             <tr>
                 <td><%=data.name%></td>
-                <td><%=data.Price%></td>
+                <td><%=format.formatCurrency(data.Price)%></td>
                 <td><%=data.stock%></td>
                 <td><%=data.description%></td>
             </tr>
